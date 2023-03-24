@@ -54,6 +54,10 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="ICriterioDeSeparacao.cs" />
+    <Compile Include="IRegistro.cs" />
+    <Compile Include="ListaSimples.cs" />
+    <Compile Include="NoLista.cs" />
     <Compile Include="Ponto.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

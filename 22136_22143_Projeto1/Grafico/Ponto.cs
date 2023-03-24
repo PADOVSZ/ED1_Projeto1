@@ -8,12 +8,12 @@ using System.Runtime.ConstrainedExecution;
 
 namespace Grafico
 {
-    class Ponto // implementar IComparable
+    class Ponto : IComparable<Ponto>, ICriterioDeSeparacao, IRegistro // implementar IComparable
     {
         // atributos que serão utilizados
         private int x, y;
         private Color cor;
-        // private ListaSimples<Ponto> figuras = new ListaSimples<Ponto>();
+        // 
 
         // construtor da classe Ponto
         public Ponto(int cX, int cY, Color qualCor)
@@ -38,6 +38,23 @@ namespace Grafico
         {
             get { return cor; }
             set { cor = value; }
+        }
+        public int CompareTo(Ponto other)
+        {
+            int diferencaX = X - other.X;
+            if (diferencaX == 0)
+                return Y - other.Y;
+            return diferencaX;
+        }
+
+        public bool PodeSeparar()
+        {
+            return false;
+        }
+
+        public string FormatoDeRegistro()
+        {
+            return 
         }
 
         // desenha o ponto no local indicado pelas coordenadas cartesianas do ponto

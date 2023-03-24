@@ -12,6 +12,7 @@ namespace Grafico
 {
     public partial class frmGrafico : Form
     {
+        private ListaSimples<Ponto> figuras = new ListaSimples<Ponto>();
         public frmGrafico()
         {
             InitializeComponent();
