@@ -187,7 +187,7 @@ namespace Grafico
             else
                 if(esperaFimElipse)
             {
-                Elipse elipse = new Elipse(p1.X, p1.Y, e.X - p1.X, e.Y - p1.Y, corAtual);
+                Elipse elipse = new Elipse(p1.X, p1.Y, (e.X - p1.X) < 0 ? p1.X - e.X : e.X - p1.X, (e.Y - p1.Y) < 0 ? p1.Y - e.Y : e.Y - p1.Y, corAtual);
                 figuras.InserirAposFim(new NoLista<Ponto>(elipse));
                 elipse.Desenhar(elipse.Cor, pbAreaDesenho.CreateGraphics());
                 esperaFimElipse = false;
@@ -218,13 +218,31 @@ namespace Grafico
 
         private void btnSalvar_Click(object sender, EventArgs e)
         {
+            Salvar();
+        }
+
+        private void btnSair_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        private void frmGrafico_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if(MessageBox.Show("Deseja salvar seu desenho antes de sair?", "Sair", MessageBoxButtons.YesNo) == DialogResult.Yes) 
+            {
+                Salvar();
+            }
+        }
+
+        private void Salvar()
+        {
             if (dlgSalvar.ShowDialog() == DialogResult.OK)
             {
                 try
                 {
                     StreamWriter arq = new StreamWriter(dlgSalvar.FileName);
-                    arq.WriteLine("0".PadLeft(10, '0')+
-                        pbAreaDesenho.Width.ToString().PadLeft(5, '0')+
+                    arq.WriteLine("0".PadLeft(10, '0') +
+                        pbAreaDesenho.Width.ToString().PadLeft(5, '0') +
                         pbAreaDesenho.Height.ToString().PadLeft(5, '0'));
                     figuras.IniciarPercursoSequencial();
                     while (figuras.PodePercorrer())

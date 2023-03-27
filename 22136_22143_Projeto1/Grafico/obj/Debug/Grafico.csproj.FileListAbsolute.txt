@@ -20,3 +20,14 @@ C:\Users\Hugo\Documents\Cotuca\EstruturaDeDadosI\ED1_Projeto1\22136_22143_Projet
 C:\Users\Hugo\Documents\Cotuca\EstruturaDeDadosI\ED1_Projeto1\22136_22143_Projeto1\Grafico\obj\Debug\Grafico.csproj.CoreCompileInputs.cache
 C:\Users\Hugo\Documents\Cotuca\EstruturaDeDadosI\ED1_Projeto1\22136_22143_Projeto1\Grafico\obj\Debug\Grafico.exe
 C:\Users\Hugo\Documents\Cotuca\EstruturaDeDadosI\ED1_Projeto1\22136_22143_Projeto1\Grafico\obj\Debug\Grafico.pdb
+Z:\EDI\ED1_Projeto1\22136_22143_Projeto1\Grafico\bin\Debug\Grafico.exe.config
+Z:\EDI\ED1_Projeto1\22136_22143_Projeto1\Grafico\bin\Debug\Grafico.exe
+Z:\EDI\ED1_Projeto1\22136_22143_Projeto1\Grafico\bin\Debug\Grafico.pdb
+Z:\EDI\ED1_Projeto1\22136_22143_Projeto1\Grafico\obj\Debug\Grafico.csproj.AssemblyReference.cache
+Z:\EDI\ED1_Projeto1\22136_22143_Projeto1\Grafico\obj\Debug\Grafico.csproj.SuggestedBindingRedirects.cache
+Z:\EDI\ED1_Projeto1\22136_22143_Projeto1\Grafico\obj\Debug\Grafico.frmGrafico.resources
+Z:\EDI\ED1_Projeto1\22136_22143_Projeto1\Grafico\obj\Debug\Grafico.Properties.Resources.resources
+Z:\EDI\ED1_Projeto1\22136_22143_Projeto1\Grafico\obj\Debug\Grafico.csproj.GenerateResource.cache
+Z:\EDI\ED1_Projeto1\22136_22143_Projeto1\Grafico\obj\Debug\Grafico.csproj.CoreCompileInputs.cache
+Z:\EDI\ED1_Projeto1\22136_22143_Projeto1\Grafico\obj\Debug\Grafico.exe
+Z:\EDI\ED1_Projeto1\22136_22143_Projeto1\Grafico\obj\Debug\Grafico.pdb
