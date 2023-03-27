@@ -26,7 +26,7 @@ namespace Grafico
             raio = novoRaio;
         }
 
-        public void setRaio(int novoRaio)
+        public void setRaio(int novoRaio) //qual a função, sendo que existe a propriedade?
         {
             raio = novoRaio;
         }
@@ -37,6 +37,17 @@ namespace Grafico
             Pen pen = new Pen(corDesenho);
             g.DrawEllipse(pen, base.X - raio, base.Y - raio, // centro - raio
                                         2 * raio, 2 * raio); // centro + raio
+        }
+
+        public override String ToString()
+        {
+            return transformaString("c", 5) +
+                transformaString(base.X, 5) +
+                transformaString(base.Y, 5) +
+                transformaString(Cor.R, 5) +
+                transformaString(Cor.G, 5) +
+                transformaString(Cor.B, 5) +
+                transformaString(this.raio, 5);
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Collections.Generic;
 
 public class ListaSimples<Dado> where Dado : IComparable<Dado>,
     ICriterioDeSeparacao, IRegistro
@@ -372,6 +373,31 @@ public class ListaSimples<Dado> where Dado : IComparable<Dado>,
             primeiro.Prox = null;
             primeiro = um;
         }
+    }
+
+    public void IniciarPercursoSequencial()
+    {
+        atual = primeiro;
+        primeiroAcessoDoPercurso = true;
+    }
+
+    public bool PodePercorrer()
+    {
+        if (!EstaVazia)
+        {
+            if (primeiroAcessoDoPercurso)
+            {
+                primeiroAcessoDoPercurso = false;
+                return true;
+            }
+
+            atual = atual.Prox;
+
+            if (atual != null)
+                return true;
+        }
+
+        return false;
     }
 }
 
