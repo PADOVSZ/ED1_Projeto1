@@ -20,7 +20,10 @@ namespace Grafico
         bool esperaFimCirculo;
         bool esperaInicioElipse;
         bool esperaFimElipse;
+
+        // uma lista ligada simples para armazenar figuras da classe Ponto
         private ListaSimples<Ponto> figuras = new ListaSimples<Ponto>();
+
         Color corAtual = Color.Black;
         private static Ponto p1 = new Ponto(0, 0, Color.Black);
 
@@ -29,6 +32,8 @@ namespace Grafico
             InitializeComponent();
         }
 
+        // método onde atribuiremos false em todas as variáveis lógicas que indicarão
+        // que tipo de clique o programa está esperando no momento
         private void LimparEsperas()
         {
             esperaPonto = false;
@@ -36,9 +41,12 @@ namespace Grafico
             esperaFimReta = false;
         }
 
+        // Acessamos o contexto gráfico do PictureBox e percorremos a lista
+        // ligada para acessarmos cada uma das figuras nela armazenadas
         private void pbAreaDesenho_Paint(object sender, PaintEventArgs e)
         {
             Graphics g = e.Graphics; // acessa contexto gráfico
+                                
             figuras.IniciarPercursoSequencial();
             while (figuras.PodePercorrer())
             {
@@ -47,24 +55,23 @@ namespace Grafico
             }
         }
 
-        private void btnPonto_Click(object sender, EventArgs e)
-        {
-            stMensagem.Items[1].Text = "Mensagem: Clique em um ponto na área de desenho";
-            LimparEsperas();
-            esperaPonto = true;
-        }
-
         private void pbAreaDesenho_MouseMove(object sender, MouseEventArgs e)
         {
             stMensagem.Items[3].Text = e.X +","+ e.Y;
         }
 
+        // o botão btnAbrir exibe um diálogo de abertura de arquivo, que permitirá selecionar
+        // um arquivo com as figuras geométricas salvas anteriormente pelo aplicativo.
         private void btnAbrir_Click(object sender, EventArgs e)
         {
             if(dlgAbrir.ShowDialog() == DialogResult.OK)
             {
                 try
                 {
+                    // lê linhas do arquivo até que este acabe, processa cada uma, determinando
+                    // o tipo de figura geométrica que a string lida representa e captura os valores
+                    // adicionais que cada tipo de figura possui, de acordo com o tipo da figura
+
                     StreamReader arqFiguras = new StreamReader(dlgAbrir.FileName);
                     string linha = arqFiguras.ReadLine();
                     double xInfEsq_Screen = Convert.ToDouble(linha.Substring(0, 5).Trim());
@@ -93,29 +100,30 @@ namespace Grafico
                             case 'l': //reta
                                 int xFinal = Convert.ToInt32(linha.Substring(30, 5).Trim());
                                 int yFinal = Convert.ToInt32(linha.Substring(35, 5).Trim());
-                                figuras.InserirAposFim(
-                                    new NoLista<Ponto>(
-                                        new Reta(xBase, yBase, xFinal, yFinal, cor)));
+                                figuras.InserirAposFim(new NoLista<Ponto>(
+                                                       new Reta(xBase, yBase, xFinal, yFinal, cor)));
                                 break;
 
                             case 'c': //circulo
                                 int raio = Convert.ToInt32(linha.Substring(30, 5).Trim());
-                                figuras.InserirAposFim(
-                                    new NoLista<Ponto>(
-                                        new Circulo(xBase, yBase, raio, cor)));
+                                figuras.InserirAposFim(new NoLista<Ponto>(
+                                                       new Circulo(xBase, yBase, raio, cor)));
                                 break;
 
                             case 'e': //elipse
                                 int raioX = Convert.ToInt32(linha.Substring(30, 5).Trim());
                                 int raioY = Convert.ToInt32(linha.Substring(35, 5).Trim());
-                                figuras.InserirAposFim(
-                                    new NoLista<Ponto>(
-                                        new Elipse(xBase, yBase, raioX, raioY, cor)));
+                                figuras.InserirAposFim(new NoLista<Ponto>(
+                                                       new Elipse(xBase, yBase, raioX, raioY, cor)));
                                 break;
                         }
                     }
 
                     arqFiguras.Close();
+
+                    // mudam o título da janela-filha, para o nome do arquivo aberto,
+                    // e chama desenhaObjetos, passando a área gráfica de desenho
+                    // do painel de desenhos como parâmetro
                     this.Text = dlgAbrir.FileName;
                     pbAreaDesenho.Invalidate();
                 }
@@ -128,7 +136,9 @@ namespace Grafico
 
         private void pbAreaDesenho_MouseClick(object sender, MouseEventArgs e)
         {
-            if(esperaPonto)
+            // caso isso seja verdade, capturamos o ponto
+            // em que o mouse estava quando o evento foi disparado
+            if (esperaPonto)
             {
                 Ponto p = new Ponto(e.X, e.Y, corAtual);
                 figuras.InserirAposFim(new NoLista<Ponto>(p));
@@ -137,7 +147,7 @@ namespace Grafico
                 stMensagem.Items[1].Text = "";
             }
             else
-            if(esperaInicioReta)
+                if(esperaInicioReta)
             {
                 p1.Cor = corAtual;
                 p1.X = e.X;
@@ -195,6 +205,15 @@ namespace Grafico
             }
         }
 
+        // quando o usuário clicar nesse botão, o programa deverá informar
+        // que está esperando que o usuário indique um ponto sobre área de desenho
+        private void btnPonto_Click(object sender, EventArgs e)
+        {
+            stMensagem.Items[1].Text = "Mensagem: Clique em um ponto na área de desenho";
+            LimparEsperas();
+            esperaPonto = true;
+        }
+
         private void btnReta_Click(object sender, EventArgs e)
         {
             stMensagem.Items[1].Text = "Clique no local do ponto inicial da reta";
@@ -228,7 +247,9 @@ namespace Grafico
 
         private void frmGrafico_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if(MessageBox.Show("Deseja salvar seu desenho antes de sair?", "Sair", MessageBoxButtons.YesNo) == DialogResult.Yes) 
+            // solicita salvamento antes do usuário fechar o programa
+            if(MessageBox.Show("Deseja salvar seu desenho antes de sair?", "Sair", MessageBoxButtons.YesNo,
+                                                                                   MessageBoxIcon.Question) == DialogResult.Yes) 
             {
                 Salvar();
             }
@@ -241,14 +262,17 @@ namespace Grafico
                 try
                 {
                     StreamWriter arq = new StreamWriter(dlgSalvar.FileName);
+
                     arq.WriteLine("0".PadLeft(10, '0') +
                         pbAreaDesenho.Width.ToString().PadLeft(5, '0') +
                         pbAreaDesenho.Height.ToString().PadLeft(5, '0'));
                     figuras.IniciarPercursoSequencial();
+
                     while (figuras.PodePercorrer())
                     {
                         arq.WriteLine(figuras.Atual.Info.ToString());
                     }
+
                     arq.Close();
                     stMensagem.Items[1].Text = $"Arquivo salvo em {dlgSalvar.FileName}";
                 }

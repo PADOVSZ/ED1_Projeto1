@@ -13,7 +13,6 @@ namespace Grafico
         // atributos que serão utilizados
         private int x, y;
         private Color cor;
-        // 
 
         // construtor da classe Ponto
         public Ponto(int cX, int cY, Color qualCor)
@@ -63,28 +62,34 @@ namespace Grafico
         public String transformaString(int valor, int quantasPosicoes)
         {
             String cadeia = valor + "";
+
             while (cadeia.Length < quantasPosicoes)
                 cadeia = "0" + cadeia;
+
             return cadeia.Substring(0, quantasPosicoes); // corta, se necessário, para
                                                          // tamanho máximo
         }
         public String transformaString(String valor, int quantasPosicoes)
         {
             String cadeia = valor + "";
+
             while (cadeia.Length < quantasPosicoes)
                 cadeia = cadeia + " ";
+
             return cadeia.Substring(0, quantasPosicoes); // corta, se necessário, para
                                                          // tamanho máximo
         }
 
+        // forma uma forma de armazenamento da figura por meio de código
+        // para que possa ser salvo e futuramente acessado novamente
         public override String ToString()
         {
             return transformaString("p", 5) +
-            transformaString(X, 5) +
-            transformaString(Y, 5) +
-            transformaString(Cor.R, 5) +
-            transformaString(Cor.G, 5) +
-            transformaString(Cor.B, 5);
+                   transformaString(X, 5) +
+                   transformaString(Y, 5) +
+                   transformaString(Cor.R, 5) +
+                   transformaString(Cor.G, 5) +
+                   transformaString(Cor.B, 5);
         }
 
         public String FormatoDeRegistro()
