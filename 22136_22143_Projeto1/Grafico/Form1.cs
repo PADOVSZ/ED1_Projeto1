@@ -5,6 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -20,6 +21,8 @@ namespace Grafico
         bool esperaFimCirculo;
         bool esperaInicioElipse;
         bool esperaFimElipse;
+        bool esperaInicioRetangulo;
+        bool esperaFimRetangulo;
         private ListaSimples<Ponto> figuras = new ListaSimples<Ponto>();
         Color corAtual = Color.Black;
         private static Ponto p1 = new Ponto(0, 0, Color.Black);
@@ -187,11 +190,33 @@ namespace Grafico
             else
                 if(esperaFimElipse)
             {
-                Elipse elipse = new Elipse(p1.X, p1.Y, (e.X - p1.X) < 0 ? p1.X - e.X : e.X - p1.X, (e.Y - p1.Y) < 0 ? p1.Y - e.Y : e.Y - p1.Y, corAtual);
+                Elipse elipse = new Elipse(p1.X, p1.Y, e.X < p1.X ? p1.X - e.X : e.X - p1.X, e.Y < p1.Y ? p1.Y - e.Y : e.Y - p1.Y, corAtual);
                 figuras.InserirAposFim(new NoLista<Ponto>(elipse));
                 elipse.Desenhar(elipse.Cor, pbAreaDesenho.CreateGraphics());
                 esperaFimElipse = false;
                 stMensagem.Items[1].Text = "";
+            }
+            else
+                if(esperaInicioRetangulo)
+            {
+                p1.Cor = corAtual;
+                p1.X = e.X;
+                p1.Y = e.Y;
+                esperaInicioRetangulo = false;
+                esperaFimRetangulo = true;
+                stMensagem.Items[1].Text = "Clique no canto inferior direito do retângulo";
+            }
+            else
+                if(esperaFimRetangulo)
+            {
+                int x = e.X;
+                int y = e.Y;
+
+                if ()
+                    p1.X = x;
+
+                Retangulo retangulo = new Retangulo(p1.X, p1.Y, (p1.X > e.X) ? p1.X - e.X : e.X - p1.X, (p1.Y > e.Y) ? p1.Y - e.Y : e.Y - p1.Y, corAtual);
+                figuras.InserirAposFim(new NoLista<Ponto>(retangulo));
             }
         }
 
@@ -257,6 +282,13 @@ namespace Grafico
                     MessageBox.Show("Erro ao salvar figuras");
                 }
             }
+        }
+
+        private void btnRetangulo_Click(object sender, EventArgs e)
+        {
+            stMensagem.Items[1].Text = "Clique no canto superior esquerdo do retângulo";
+            LimparEsperas();
+            esperaInicioRetangulo = true;
         }
     }
 }

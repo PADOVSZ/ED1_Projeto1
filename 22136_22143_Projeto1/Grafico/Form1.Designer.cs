@@ -160,6 +160,7 @@
             this.btnRetangulo.Size = new System.Drawing.Size(81, 47);
             this.btnRetangulo.Text = "Retângulo";
             this.btnRetangulo.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.btnRetangulo.Click += new System.EventHandler(this.btnRetangulo_Click);
             // 
             // btnPolilinha
             // 
