@@ -31,7 +31,7 @@ namespace Grafico
             set => cor = value;
         }
 
-        public Retangulo(int xInicial, int yInicial, int altura, int largura, Color cor) : 
+        public Retangulo(int xInicial, int yInicial, int largura, int altura, Color cor) : 
                          base(xInicial, yInicial, cor)
         {
             this.altura = altura;

@@ -51,6 +51,8 @@
             this.dlgAbrir = new System.Windows.Forms.OpenFileDialog();
             this.dlgSalvar = new System.Windows.Forms.SaveFileDialog();
             this.pbAreaDesenho = new System.Windows.Forms.PictureBox();
+            this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStrip1.SuspendLayout();
             this.stMensagem.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbAreaDesenho)).BeginInit();
@@ -71,12 +73,14 @@
             this.btnRetangulo,
             this.btnPolilinha,
             this.toolStripSeparator2,
+            this.toolStripButton1,
+            this.toolStripSeparator4,
             this.btnCor,
             this.toolStripSeparator3,
             this.btnSair});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(602, 50);
+            this.toolStrip1.Size = new System.Drawing.Size(684, 50);
             this.toolStrip1.TabIndex = 0;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -214,7 +218,7 @@
             this.toolStripStatusLabel4});
             this.stMensagem.Location = new System.Drawing.Point(0, 468);
             this.stMensagem.Name = "stMensagem";
-            this.stMensagem.Size = new System.Drawing.Size(602, 22);
+            this.stMensagem.Size = new System.Drawing.Size(684, 22);
             this.stMensagem.TabIndex = 1;
             this.stMensagem.Text = "statusStrip1";
             // 
@@ -257,22 +261,38 @@
             this.pbAreaDesenho.ErrorImage = ((System.Drawing.Image)(resources.GetObject("pbAreaDesenho.ErrorImage")));
             this.pbAreaDesenho.Location = new System.Drawing.Point(0, 50);
             this.pbAreaDesenho.Name = "pbAreaDesenho";
-            this.pbAreaDesenho.Size = new System.Drawing.Size(602, 415);
+            this.pbAreaDesenho.Size = new System.Drawing.Size(684, 415);
             this.pbAreaDesenho.TabIndex = 2;
             this.pbAreaDesenho.TabStop = false;
             this.pbAreaDesenho.Paint += new System.Windows.Forms.PaintEventHandler(this.pbAreaDesenho_Paint);
             this.pbAreaDesenho.MouseClick += new System.Windows.Forms.MouseEventHandler(this.pbAreaDesenho_MouseClick);
             this.pbAreaDesenho.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pbAreaDesenho_MouseMove);
             // 
+            // toolStripButton1
+            // 
+            this.toolStripButton1.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.toolStripButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton1.Image")));
+            this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton1.Name = "toolStripButton1";
+            this.toolStripButton1.Size = new System.Drawing.Size(59, 47);
+            this.toolStripButton1.Text = "Limpar";
+            this.toolStripButton1.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            // 
+            // toolStripSeparator4
+            // 
+            this.toolStripSeparator4.Name = "toolStripSeparator4";
+            this.toolStripSeparator4.Size = new System.Drawing.Size(6, 50);
+            // 
             // frmGrafico
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
-            this.ClientSize = new System.Drawing.Size(602, 490);
+            this.ClientSize = new System.Drawing.Size(684, 490);
             this.Controls.Add(this.pbAreaDesenho);
             this.Controls.Add(this.stMensagem);
             this.Controls.Add(this.toolStrip1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "frmGrafico";
             this.Text = "Desenho Geométrico";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmGrafico_FormClosing);
@@ -310,6 +330,8 @@
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel2;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel3;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel4;
+        private System.Windows.Forms.ToolStripButton toolStripButton1;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
     }
 }
 

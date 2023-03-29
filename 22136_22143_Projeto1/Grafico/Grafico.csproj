@@ -58,6 +58,7 @@
     <Compile Include="IRegistro.cs" />
     <Compile Include="ListaSimples.cs" />
     <Compile Include="NoLista.cs" />
+    <Compile Include="Polilinha.cs" />
     <Compile Include="Ponto.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

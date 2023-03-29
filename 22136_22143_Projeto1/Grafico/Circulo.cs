@@ -39,15 +39,17 @@ namespace Grafico
                                         2 * raio, 2 * raio); // centro + raio
         }
 
+        // forma uma forma de armazenamento da figura por meio de código
+        // para que possa ser salvo e futuramente acessado novamente
         public override String ToString()
         {
             return transformaString("c", 5) +
-                transformaString(base.X, 5) +
-                transformaString(base.Y, 5) +
-                transformaString(Cor.R, 5) +
-                transformaString(Cor.G, 5) +
-                transformaString(Cor.B, 5) +
-                transformaString(this.raio, 5);
+                   transformaString(base.X, 5) +
+                   transformaString(base.Y, 5) +
+                   transformaString(Cor.R, 5) +
+                   transformaString(Cor.G, 5) +
+                   transformaString(Cor.B, 5) +
+                   transformaString(this.raio, 5);
         }
     }
 }
