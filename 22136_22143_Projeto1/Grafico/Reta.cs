@@ -17,6 +17,7 @@ namespace Grafico
 
         private Ponto pontoFinal;
 
+
         // getter e setter
         public Ponto PontoFinal
         {

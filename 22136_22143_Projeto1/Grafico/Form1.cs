@@ -14,7 +14,7 @@ namespace Grafico
 {
     public partial class frmGrafico : Form
     {
-        bool esperaPonto;
+        /*bool esperaPonto;
         bool esperaInicioReta;
         bool esperaFimReta;
         bool esperaInicioCirculo;
@@ -23,6 +23,17 @@ namespace Grafico
         bool esperaFimElipse;
         bool esperaInicioRetangulo;
         bool esperaFimRetangulo;
+        bool esperaInicioPolilinha;
+        bool esperaFimPolilinha;*/
+
+        public enum Situacao
+        {
+            esperaPonto, esperaInicioReta, esperaFimReta, esperaInicioCirculo, esperaFimCirculo,
+            esperaInicioPolilinha, esperaFimPolilinha, esperaInicioElipse, esperaFimElipse,
+            esperaInicioRetangulo, esperaFimRetangulo, esperaAcao
+        }
+
+        Situacao situacaoAtual = new Situacao();
 
         // uma lista ligada simples para armazenar figuras da classe Ponto
         private ListaSimples<Ponto> figuras = new ListaSimples<Ponto>();
@@ -39,9 +50,7 @@ namespace Grafico
         // que tipo de clique o programa está esperando no momento
         private void LimparEsperas()
         {
-            esperaPonto = false;
-            esperaInicioReta = false;
-            esperaFimReta = false;
+            situacaoAtual = Situacao.esperaAcao;
         }
 
         // Acessamos o contexto gráfico do PictureBox e percorremos a lista
@@ -148,106 +157,126 @@ namespace Grafico
         {
             // caso isso seja verdade, capturamos o ponto
             // em que o mouse estava quando o evento foi disparado
-            if (esperaPonto)
+            Polilinha novaPolilinha = new Polilinha();
+            switch(situacaoAtual)
             {
-                Ponto p = new Ponto(e.X, e.Y, corAtual);
-                figuras.InserirAposFim(new NoLista<Ponto>(p));
-                p.Desenhar(p.Cor, pbAreaDesenho.CreateGraphics());
-                esperaPonto = false;
-                stMensagem.Items[1].Text = "";
-            }
-            else
-                if(esperaInicioReta)
-            {
-                p1.Cor = corAtual;
-                p1.X = e.X;
-                p1.Y = e.Y;
-                esperaInicioReta = false;
-                esperaFimReta = true;
-                stMensagem.Items[1].Text = "Clique no ponto final da reta";
-            }
-            else
-                if(esperaFimReta)
-            {
-                Reta r = new Reta(p1.X, p1.Y, e.X, e.Y, corAtual);
-                figuras.InserirAposFim(new NoLista<Ponto>(r));
-                r.Desenhar(r.Cor, pbAreaDesenho.CreateGraphics());
-                esperaFimReta = false;
-                stMensagem.Items[1].Text = "";
-            }
-            else
-                if(esperaInicioCirculo)
-            {
-                p1.Cor = corAtual;
-                p1.X = e.X;
-                p1.Y = e.Y;
-                esperaInicioCirculo = false;
-                esperaFimCirculo = true;
-                stMensagem.Items[1].Text = "Clique no local da extremidade do círculo";
-            }
-            else
-                if(esperaFimCirculo)
-            {
-                int raio = (int) Math.Sqrt(Math.Pow(Math.Abs(e.X - p1.X), 2) + Math.Pow(Math.Abs(e.Y - p1.Y), 2));
-                Circulo c = new Circulo(p1.X, p1.Y, raio, corAtual);
-                figuras.InserirAposFim(new NoLista<Ponto>(c));
-                c.Desenhar(c.Cor, pbAreaDesenho.CreateGraphics());
-                esperaFimCirculo = false;
-                stMensagem.Items[1].Text = "";
-            }
-            else
-                if(esperaInicioElipse)
-            {
-                p1.Cor = corAtual;
-                p1.X = e.X;
-                p1.Y = e.Y;
-                esperaInicioElipse = false;
-                esperaFimElipse = true;
-                stMensagem.Items[1].Text = "Clique na extremidade da elipse";
-            }
-            else
-                if(esperaFimElipse)
-            {
-                Elipse elipse = new Elipse(p1.X, p1.Y, e.X < p1.X ? p1.X - e.X : e.X - p1.X, e.Y < p1.Y ? p1.Y - e.Y : e.Y - p1.Y, corAtual);
-                figuras.InserirAposFim(new NoLista<Ponto>(elipse));
-                elipse.Desenhar(elipse.Cor, pbAreaDesenho.CreateGraphics());
-                esperaFimElipse = false;
-                stMensagem.Items[1].Text = "";
-            }
-            else
-                if(esperaInicioRetangulo)
-            {
-                p1.Cor = corAtual;
-                p1.X = e.X;
-                p1.Y = e.Y;
-                esperaInicioRetangulo = false;
-                esperaFimRetangulo = true;
-                stMensagem.Items[1].Text = "Clique no canto inferior direito do retângulo";
-            }
-            else
-                if(esperaFimRetangulo)
-            {
-                int x = e.X;
-                int y = e.Y;
+                case Situacao.esperaPonto:
+                    Ponto p = new Ponto(e.X, e.Y, corAtual);
+                    figuras.InserirAposFim(new NoLista<Ponto>(p));
+                    p.Desenhar(p.Cor, pbAreaDesenho.CreateGraphics());
+                    LimparEsperas();
+                    stMensagem.Items[1].Text = "";
 
-                if(e.X < p1.X)
-                {
-                    x = p1.X;
+                    break;
+
+                case Situacao.esperaInicioReta:
+                    p1.Cor = corAtual;
                     p1.X = e.X;
-                }
+                    p1.Y = e.Y; 
+                    situacaoAtual = Situacao.esperaFimReta;
+                    stMensagem.Items[1].Text = "Clique no ponto final da reta";
 
-                if(e.Y < p1.Y)
-                {
-                    y = p1.Y;
+                    break;
+
+                case Situacao.esperaFimReta:
+                    Reta r = new Reta(p1.X, p1.Y, e.X, e.Y, corAtual);
+                    figuras.InserirAposFim(new NoLista<Ponto>(r));
+                    r.Desenhar(r.Cor, pbAreaDesenho.CreateGraphics());
+                    LimparEsperas();
+                    stMensagem.Items[1].Text = "";
+
+                    break;
+
+                case Situacao.esperaInicioCirculo:
+                    p1.Cor = corAtual;
+                    p1.X = e.X;
                     p1.Y = e.Y;
-                }
+                    situacaoAtual = Situacao.esperaFimCirculo;
+                    stMensagem.Items[1].Text = "Clique no local da extremidade do círculo";
 
-                Retangulo retangulo = new Retangulo(p1.X, p1.Y, x - p1.X, y - p1.Y, corAtual);
-                figuras.InserirAposFim(new NoLista<Ponto>(retangulo));
-                retangulo.Desenhar(retangulo.Cor, pbAreaDesenho.CreateGraphics());
-                esperaFimRetangulo = false;
-                stMensagem.Items[1].Text = "";
+                    break;
+
+                case Situacao.esperaFimCirculo:
+                    int raio = (int)Math.Sqrt(Math.Pow(Math.Abs(e.X - p1.X), 2) + Math.Pow(Math.Abs(e.Y - p1.Y), 2));
+                    Circulo c = new Circulo(p1.X, p1.Y, raio, corAtual);
+                    figuras.InserirAposFim(new NoLista<Ponto>(c));
+                    c.Desenhar(c.Cor, pbAreaDesenho.CreateGraphics());
+                    LimparEsperas();
+                    stMensagem.Items[1].Text = "";
+
+                    break;
+
+                case Situacao.esperaInicioElipse:
+                    p1.Cor = corAtual;
+                    p1.X = e.X;
+                    p1.Y = e.Y;
+                    situacaoAtual = Situacao.esperaFimElipse;
+                    stMensagem.Items[1].Text = "Clique na extremidade da elipse";
+
+                    break;
+
+                case Situacao.esperaFimElipse:
+                    Elipse elipse = new Elipse(p1.X, p1.Y, e.X < p1.X ? p1.X - e.X : e.X - p1.X, e.Y < p1.Y ? p1.Y - e.Y : e.Y - p1.Y, corAtual);
+                    figuras.InserirAposFim(new NoLista<Ponto>(elipse));
+                    elipse.Desenhar(elipse.Cor, pbAreaDesenho.CreateGraphics());
+                    LimparEsperas();
+                    stMensagem.Items[1].Text = "";
+
+                    break;
+
+                case Situacao.esperaInicioRetangulo:
+                    p1.Cor = corAtual;
+                    p1.X = e.X;
+                    p1.Y = e.Y;
+                    situacaoAtual = Situacao.esperaFimRetangulo;
+                    stMensagem.Items[1].Text = "Clique no canto inferior direito do retângulo";
+
+                    break;
+
+                case Situacao.esperaFimRetangulo:
+                    int x = e.X;
+                    int y = e.Y;
+
+                    if (e.X < p1.X)
+                    {
+                        x = p1.X;
+                        p1.X = e.X;
+                    }
+
+                    if (e.Y < p1.Y)
+                    {
+                        y = p1.Y;
+                        p1.Y = e.Y;
+                    }
+
+                    Retangulo retangulo = new Retangulo(p1.X, p1.Y, x - p1.X, y - p1.Y, corAtual);
+                    figuras.InserirAposFim(new NoLista<Ponto>(retangulo));
+                    retangulo.Desenhar(retangulo.Cor, pbAreaDesenho.CreateGraphics());
+                    LimparEsperas();
+                    stMensagem.Items[1].Text = "";
+
+                    break;
+
+                case Situacao.esperaInicioPolilinha:
+                    p1.X = e.X;
+                    p1.Y = e.Y;
+                    p1.Cor = corAtual;
+                    situacaoAtual = Situacao.esperaFimPolilinha;
+                    novaPolilinha.Cor = corAtual;
+                    novaPolilinha.X = e.X;
+                    novaPolilinha.Y = e.Y;
+                    stMensagem.Items[1].Text = "Clique nos outros pontos para formar as linhas. Clique novamente no botão [Polilinha] para encerrar";
+                    break;
+
+                case Situacao.esperaFimPolilinha:
+                    Reta novaReta = new Reta(p1.X, p1.Y, e.X, e.Y, p1.Cor); //mudar cor
+                    novaPolilinha.Linhas.InserirAposFim(novaReta);
+                    novaPolilinha.Desenhar(novaPolilinha.Cor, pbAreaDesenho.CreateGraphics());
+                    p1.X = e.X;
+                    p1.Y = e.Y;
+                    break;
             }
+
         }
 
         // quando o usuário clicar nesse botão, o programa deverá informar
@@ -256,28 +285,28 @@ namespace Grafico
         {
             stMensagem.Items[1].Text = "Mensagem: Clique em um ponto na área de desenho";
             LimparEsperas();
-            esperaPonto = true;
+            situacaoAtual = Situacao.esperaPonto;
         }
 
         private void btnReta_Click(object sender, EventArgs e)
         {
             stMensagem.Items[1].Text = "Clique no local do ponto inicial da reta";
             LimparEsperas();
-            esperaInicioReta = true;
+            situacaoAtual = Situacao.esperaInicioReta;
         }
 
         private void btnCirculo_Click(object sender, EventArgs e)
         {
             stMensagem.Items[1].Text = "Clique no local do centro do círculo";
             LimparEsperas();
-            esperaInicioCirculo = true;
+            situacaoAtual = Situacao.esperaInicioCirculo;
         }
 
         private void btnElipse_Click(object sender, EventArgs e)
         {
             stMensagem.Items[1].Text = "Clique no local do centro da elipse";
             LimparEsperas();
-            esperaInicioElipse = true;
+            situacaoAtual = Situacao.esperaInicioElipse;
         }
 
         private void btnSalvar_Click(object sender, EventArgs e)
@@ -332,7 +361,17 @@ namespace Grafico
         {
             stMensagem.Items[1].Text = "Clique no canto superior esquerdo do retângulo";
             LimparEsperas();
-            esperaInicioRetangulo = true;
+            situacaoAtual = Situacao.esperaInicioRetangulo;
+        }
+
+        private void btnPolilinha_Click(object sender, EventArgs e)
+        {
+            stMensagem.Items[1].Text = "Selecione o ponto inicial";
+            LimparEsperas();
+            situacaoAtual = Situacao.esperaInicioPolilinha;
+
+            if (situacaoAtual == Situacao.esperaFimPolilinha)
+                LimparEsperas();
         }
     }
 }
