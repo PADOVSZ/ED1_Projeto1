@@ -40,7 +40,7 @@
             this.btnRetangulo = new System.Windows.Forms.ToolStripButton();
             this.btnPolilinha = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
+            this.btnLimpar = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.btnCor = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
@@ -53,6 +53,7 @@
             this.dlgAbrir = new System.Windows.Forms.OpenFileDialog();
             this.dlgSalvar = new System.Windows.Forms.SaveFileDialog();
             this.pbAreaDesenho = new System.Windows.Forms.PictureBox();
+            this.cdSelecionarCor = new System.Windows.Forms.ColorDialog();
             this.toolStrip1.SuspendLayout();
             this.stMensagem.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbAreaDesenho)).BeginInit();
@@ -73,7 +74,7 @@
             this.btnRetangulo,
             this.btnPolilinha,
             this.toolStripSeparator2,
-            this.toolStripButton1,
+            this.btnLimpar,
             this.toolStripSeparator4,
             this.btnCor,
             this.toolStripSeparator3,
@@ -182,15 +183,16 @@
             this.toolStripSeparator2.Name = "toolStripSeparator2";
             this.toolStripSeparator2.Size = new System.Drawing.Size(6, 50);
             // 
-            // toolStripButton1
+            // btnLimpar
             // 
-            this.toolStripButton1.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.toolStripButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton1.Image")));
-            this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton1.Name = "toolStripButton1";
-            this.toolStripButton1.Size = new System.Drawing.Size(59, 47);
-            this.toolStripButton1.Text = "Limpar";
-            this.toolStripButton1.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.btnLimpar.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnLimpar.Image = ((System.Drawing.Image)(resources.GetObject("btnLimpar.Image")));
+            this.btnLimpar.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnLimpar.Name = "btnLimpar";
+            this.btnLimpar.Size = new System.Drawing.Size(59, 47);
+            this.btnLimpar.Text = "Limpar";
+            this.btnLimpar.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.btnLimpar.Click += new System.EventHandler(this.btnLimpar_Click);
             // 
             // toolStripSeparator4
             // 
@@ -206,6 +208,7 @@
             this.btnCor.Size = new System.Drawing.Size(36, 47);
             this.btnCor.Text = "Cor";
             this.btnCor.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.btnCor.Click += new System.EventHandler(this.btnCor_Click);
             // 
             // toolStripSeparator3
             // 
@@ -281,6 +284,7 @@
             this.pbAreaDesenho.TabIndex = 2;
             this.pbAreaDesenho.TabStop = false;
             this.pbAreaDesenho.Paint += new System.Windows.Forms.PaintEventHandler(this.pbAreaDesenho_Paint);
+            this.pbAreaDesenho.DoubleClick += new System.EventHandler(this.pbAreaDesenho_DoubleClick);
             this.pbAreaDesenho.MouseClick += new System.Windows.Forms.MouseEventHandler(this.pbAreaDesenho_MouseClick);
             this.pbAreaDesenho.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pbAreaDesenho_MouseMove);
             // 
@@ -331,8 +335,9 @@
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel2;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel3;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel4;
-        private System.Windows.Forms.ToolStripButton toolStripButton1;
+        private System.Windows.Forms.ToolStripButton btnLimpar;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
+        private System.Windows.Forms.ColorDialog cdSelecionarCor;
     }
 }
 

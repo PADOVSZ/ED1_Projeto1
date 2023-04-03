@@ -52,10 +52,13 @@ namespace Grafico
             linhas.IniciarPercursoSequencial();
             while(linhas.PodePercorrer())
             {
-                arq += linhas.Atual.Info.ToString() + "\n";
+                arq += linhas.Atual.Info.ToString();
             }
 
             return arq;
         }
+
+        public Polilinha(Polilinha polilinha) : this(polilinha.X, polilinha.Y, polilinha.Cor)
+        {}
     }
 }

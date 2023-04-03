@@ -33,7 +33,7 @@ namespace Grafico
             esperaInicioRetangulo, esperaFimRetangulo, esperaAcao
         }
 
-        Situacao situacaoAtual = new Situacao();
+        Situacao situacaoAtual = Situacao.esperaAcao;
 
         // uma lista ligada simples para armazenar figuras da classe Ponto
         private ListaSimples<Ponto> figuras = new ListaSimples<Ponto>();
@@ -158,7 +158,7 @@ namespace Grafico
             // caso isso seja verdade, capturamos o ponto
             // em que o mouse estava quando o evento foi disparado
             Polilinha novaPolilinha = new Polilinha();
-            switch(situacaoAtual)
+            switch (situacaoAtual)
             {
                 case Situacao.esperaPonto:
                     Ponto p = new Ponto(e.X, e.Y, corAtual);
@@ -262,16 +262,18 @@ namespace Grafico
                     p1.Y = e.Y;
                     p1.Cor = corAtual;
                     situacaoAtual = Situacao.esperaFimPolilinha;
-                    novaPolilinha.Cor = corAtual;
-                    novaPolilinha.X = e.X;
-                    novaPolilinha.Y = e.Y;
-                    stMensagem.Items[1].Text = "Clique nos outros pontos para formar as linhas. Clique novamente no botão [Polilinha] para encerrar";
+                    stMensagem.Items[1].Text = "Clique nos outros pontos para formar as linhas. [Double Click] para encerrar";
                     break;
 
                 case Situacao.esperaFimPolilinha:
-                    Reta novaReta = new Reta(p1.X, p1.Y, e.X, e.Y, p1.Cor); //mudar cor
-                    novaPolilinha.Linhas.InserirAposFim(novaReta);
-                    novaPolilinha.Desenhar(novaPolilinha.Cor, pbAreaDesenho.CreateGraphics());
+                    Polilinha polilinha = new Polilinha(novaPolilinha);
+                    polilinha.Cor = corAtual;
+                    polilinha.X = e.X;
+                    polilinha.Y = e.Y;
+                    figuras.InserirAposFim(new NoLista<Ponto>(polilinha));
+                    Reta novaReta = new Reta(p1.X, p1.Y, e.X, e.Y, polilinha.Cor); //mudar cor
+                    polilinha.Linhas.InserirAposFim(novaReta);
+                    polilinha.Desenhar(novaPolilinha.Cor, pbAreaDesenho.CreateGraphics());
                     p1.X = e.X;
                     p1.Y = e.Y;
                     break;
@@ -369,9 +371,28 @@ namespace Grafico
             stMensagem.Items[1].Text = "Selecione o ponto inicial";
             LimparEsperas();
             situacaoAtual = Situacao.esperaInicioPolilinha;
+        }
 
+        private void pbAreaDesenho_DoubleClick(object sender, EventArgs e)
+        {
             if (situacaoAtual == Situacao.esperaFimPolilinha)
+            {
                 LimparEsperas();
+            }
+        }
+
+        private void btnCor_Click(object sender, EventArgs e)
+        {
+            if(cdSelecionarCor.ShowDialog() == DialogResult.OK)
+            {
+                corAtual = cdSelecionarCor.Color;
+            }
+        }
+
+        private void btnLimpar_Click(object sender, EventArgs e)
+        {
+            figuras.Limpar();
+            pbAreaDesenho.Invalidate();
         }
     }
 }

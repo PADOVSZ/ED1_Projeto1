@@ -189,6 +189,12 @@ public class ListaSimples<Dado> where Dado : IComparable<Dado>,
         return false;
     }
 
+    /*public void Limpar()
+    {
+        for (atual = primeiro; atual != null; atual = atual.Prox)
+            Remover(atual.Info);
+    } */
+
     public void Ordenar()
     {
         var listaOrdenada = new ListaSimples<Dado>();
@@ -398,6 +404,19 @@ public class ListaSimples<Dado> where Dado : IComparable<Dado>,
         }
 
         return false;
+    }
+
+    public void Limpar()
+    {
+        atual = primeiro;
+        while (atual != null)
+        {
+            primeiro = primeiro.Prox;
+            atual = primeiro;
+            if (primeiro == null)  // se esvaziou a lista!!!!
+                ultimo = null;
+        }
+        quantosNos = 0;
     }
 }
 
