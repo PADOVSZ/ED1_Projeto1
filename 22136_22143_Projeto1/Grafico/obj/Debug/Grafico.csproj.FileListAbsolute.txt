@@ -42,3 +42,14 @@ C:\Users\dudap\Downloads\ED1_Projeto1\22136_22143_Projeto1\Grafico\obj\Debug\Gra
 C:\Users\dudap\Downloads\ED1_Projeto1\22136_22143_Projeto1\Grafico\obj\Debug\Grafico.csproj.CoreCompileInputs.cache
 C:\Users\dudap\Downloads\ED1_Projeto1\22136_22143_Projeto1\Grafico\obj\Debug\Grafico.exe
 C:\Users\dudap\Downloads\ED1_Projeto1\22136_22143_Projeto1\Grafico\obj\Debug\Grafico.pdb
+C:\Temp\ED1_Projeto1\22136_22143_Projeto1\Grafico\bin\Debug\Grafico.exe.config
+C:\Temp\ED1_Projeto1\22136_22143_Projeto1\Grafico\bin\Debug\Grafico.exe
+C:\Temp\ED1_Projeto1\22136_22143_Projeto1\Grafico\bin\Debug\Grafico.pdb
+C:\Temp\ED1_Projeto1\22136_22143_Projeto1\Grafico\obj\Debug\Grafico.csproj.AssemblyReference.cache
+C:\Temp\ED1_Projeto1\22136_22143_Projeto1\Grafico\obj\Debug\Grafico.csproj.SuggestedBindingRedirects.cache
+C:\Temp\ED1_Projeto1\22136_22143_Projeto1\Grafico\obj\Debug\Grafico.frmGrafico.resources
+C:\Temp\ED1_Projeto1\22136_22143_Projeto1\Grafico\obj\Debug\Grafico.Properties.Resources.resources
+C:\Temp\ED1_Projeto1\22136_22143_Projeto1\Grafico\obj\Debug\Grafico.csproj.GenerateResource.cache
+C:\Temp\ED1_Projeto1\22136_22143_Projeto1\Grafico\obj\Debug\Grafico.csproj.CoreCompileInputs.cache
+C:\Temp\ED1_Projeto1\22136_22143_Projeto1\Grafico\obj\Debug\Grafico.exe
+C:\Temp\ED1_Projeto1\22136_22143_Projeto1\Grafico\obj\Debug\Grafico.pdb

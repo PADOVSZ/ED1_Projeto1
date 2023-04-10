@@ -1,5 +1,6 @@
 ﻿using System;
 
+// classe feita em aula
 public class NoLista<Dado> where Dado : IComparable<Dado>
 {
     Dado info;

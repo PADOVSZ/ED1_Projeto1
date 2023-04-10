@@ -42,7 +42,7 @@ namespace Grafico
                             pontoFinal.X, pontoFinal.Y);
         }
 
-        // forma uma forma de armazenamento da figura por meio de código
+        // uma forma de armazenamento da figura por meio de código
         // para que possa ser salvo e futuramente acessado novamente
         public override String ToString()
         {

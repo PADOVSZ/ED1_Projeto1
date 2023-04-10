@@ -2,6 +2,7 @@
 using System.IO;
 using System.Collections.Generic;
 
+// classe feita em aula
 public class ListaSimples<Dado> where Dado : IComparable<Dado>,
     ICriterioDeSeparacao, IRegistro
 {

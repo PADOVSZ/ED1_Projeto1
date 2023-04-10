@@ -39,7 +39,7 @@ namespace Grafico
                                         2 * raio, 2 * raio); // centro + raio
         }
 
-        // forma uma forma de armazenamento da figura por meio de código
+        // uma forma de armazenamento da figura por meio de código
         // para que possa ser salvo e futuramente acessado novamente
         public override String ToString()
         {

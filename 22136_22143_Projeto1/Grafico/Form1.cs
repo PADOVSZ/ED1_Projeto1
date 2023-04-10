@@ -14,18 +14,8 @@ namespace Grafico
 {
     public partial class frmGrafico : Form
     {
-        /*bool esperaPonto;
-        bool esperaInicioReta;
-        bool esperaFimReta;
-        bool esperaInicioCirculo;
-        bool esperaFimCirculo;
-        bool esperaInicioElipse;
-        bool esperaFimElipse;
-        bool esperaInicioRetangulo;
-        bool esperaFimRetangulo;
-        bool esperaInicioPolilinha;
-        bool esperaFimPolilinha;*/
-
+        //especifica ao programa em qual situacao o usuáro está
+        // (o que está fazendo no programa enquanto o usa)
         public enum Situacao
         {
             esperaPonto, esperaInicioReta, esperaFimReta, esperaInicioCirculo, esperaFimCirculo,
@@ -67,6 +57,7 @@ namespace Grafico
             }
         }
 
+        // indica as cordenadas de onde está o cursor do mouse
         private void pbAreaDesenho_MouseMove(object sender, MouseEventArgs e)
         {
             stMensagem.Items[3].Text = e.X +","+ e.Y;
@@ -158,6 +149,10 @@ namespace Grafico
             // caso isso seja verdade, capturamos o ponto
             // em que o mouse estava quando o evento foi disparado
             Polilinha novaPolilinha = new Polilinha();
+
+            // de acordo com a figura escolhida pelo usuário para ser feita,
+            // serão exibidas mensagens para que o mesmo possa executar o desenho
+            // da figura de forma adequada e coerente
             switch (situacaoAtual)
             {
                 case Situacao.esperaPonto:
@@ -311,11 +306,39 @@ namespace Grafico
             situacaoAtual = Situacao.esperaInicioElipse;
         }
 
+        private void btnRetangulo_Click(object sender, EventArgs e)
+        {
+            stMensagem.Items[1].Text = "Clique no canto superior esquerdo do retângulo";
+            LimparEsperas();
+            situacaoAtual = Situacao.esperaInicioRetangulo;
+        }
+
+        private void btnPolilinha_Click(object sender, EventArgs e)
+        {
+            stMensagem.Items[1].Text = "Selecione o ponto inicial";
+            LimparEsperas();
+            situacaoAtual = Situacao.esperaInicioPolilinha;
+        }
+
+        // quando o usuário der um double click sobre a área de desenho
+        // e a situação for a de desenhar uma polilinha, ele encerrará
+        // o desenho da polilinha
+        private void pbAreaDesenho_DoubleClick(object sender, EventArgs e)
+        {
+            if (situacaoAtual == Situacao.esperaFimPolilinha)
+            {
+                LimparEsperas();
+            }
+        }
+
+        // quando o usuário clicar para salvar, será executado
+        // o método que salva o desenho em um arquivo de texto
         private void btnSalvar_Click(object sender, EventArgs e)
         {
             Salvar();
         }
 
+        // o formulário será fechado
         private void btnSair_Click(object sender, EventArgs e)
         {
             this.Close();
@@ -329,6 +352,23 @@ namespace Grafico
             {
                 Salvar();
             }
+        }
+
+        // abre uma janela para que o usuário possa selecionar
+        // a cor com que quer desenhar
+        private void btnCor_Click(object sender, EventArgs e)
+        {
+            if (cdSelecionarCor.ShowDialog() == DialogResult.OK)
+            {
+                corAtual = cdSelecionarCor.Color;
+            }
+        }
+
+        // limpa o desenho que está sobre a tela
+        private void btnLimpar_Click(object sender, EventArgs e)
+        {
+            figuras.Limpar();
+            pbAreaDesenho.Invalidate();
         }
 
         private void Salvar()
@@ -357,42 +397,6 @@ namespace Grafico
                     MessageBox.Show("Erro ao salvar figuras");
                 }
             }
-        }
-
-        private void btnRetangulo_Click(object sender, EventArgs e)
-        {
-            stMensagem.Items[1].Text = "Clique no canto superior esquerdo do retângulo";
-            LimparEsperas();
-            situacaoAtual = Situacao.esperaInicioRetangulo;
-        }
-
-        private void btnPolilinha_Click(object sender, EventArgs e)
-        {
-            stMensagem.Items[1].Text = "Selecione o ponto inicial";
-            LimparEsperas();
-            situacaoAtual = Situacao.esperaInicioPolilinha;
-        }
-
-        private void pbAreaDesenho_DoubleClick(object sender, EventArgs e)
-        {
-            if (situacaoAtual == Situacao.esperaFimPolilinha)
-            {
-                LimparEsperas();
-            }
-        }
-
-        private void btnCor_Click(object sender, EventArgs e)
-        {
-            if(cdSelecionarCor.ShowDialog() == DialogResult.OK)
-            {
-                corAtual = cdSelecionarCor.Color;
-            }
-        }
-
-        private void btnLimpar_Click(object sender, EventArgs e)
-        {
-            figuras.Limpar();
-            pbAreaDesenho.Invalidate();
         }
     }
 }
