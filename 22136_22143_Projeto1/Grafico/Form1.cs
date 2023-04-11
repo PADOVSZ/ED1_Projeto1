@@ -30,6 +30,7 @@ namespace Grafico
 
         Color corAtual = Color.Black;
         private static Ponto p1 = new Ponto(0, 0, Color.Black);
+        private static Polilinha polilinhaBase = new Polilinha(0, 0, Color.Black);
 
         public frmGrafico()
         {
@@ -126,6 +127,12 @@ namespace Grafico
                                 figuras.InserirAposFim(new NoLista<Ponto>(
                                                        new Retangulo(xBase, yBase, largura, altura, cor)));
                                 break;
+                            case 'm': //polilinha ou multiline
+                                Polilinha polilinha = new Polilinha(xBase, yBase, cor);
+                                int qtosPontos = Convert.ToInt32(linha.Substring(30, 5).Trim());
+                                for (int i = 0; i < qtosPontos; i++)
+                                    polilinha.ListaPonto.InserirAposFim(new Ponto(Convert.ToInt32(linha.Substring(35 + 10 * i, 5)), Convert.ToInt32(linha.Substring(40 + 10 * i)), polilinha.Cor));
+                                break;
                         }
                     }
 
@@ -148,7 +155,6 @@ namespace Grafico
         {
             // caso isso seja verdade, capturamos o ponto
             // em que o mouse estava quando o evento foi disparado
-            Polilinha novaPolilinha = new Polilinha();
 
             // de acordo com a figura escolhida pelo usuário para ser feita,
             // serão exibidas mensagens para que o mesmo possa executar o desenho
@@ -253,25 +259,20 @@ namespace Grafico
                     break;
 
                 case Situacao.esperaInicioPolilinha:
-                    p1.X = e.X;
-                    p1.Y = e.Y;
-                    p1.Cor = corAtual;
+                    polilinhaBase.X = e.X;
+                    polilinhaBase.Y = e.Y;
+                    polilinhaBase.Cor = corAtual;
                     situacaoAtual = Situacao.esperaFimPolilinha;
                     stMensagem.Items[1].Text = "Clique nos outros pontos para formar as linhas. [Double Click] para encerrar";
                     break;
 
                 case Situacao.esperaFimPolilinha:
-                    Polilinha polilinha = new Polilinha(novaPolilinha);
-                    polilinha.Cor = corAtual;
-                    polilinha.X = e.X;
-                    polilinha.Y = e.Y;
-                    figuras.InserirAposFim(new NoLista<Ponto>(polilinha));
-                    Reta novaReta = new Reta(p1.X, p1.Y, e.X, e.Y, polilinha.Cor); //mudar cor
-                    polilinha.Linhas.InserirAposFim(novaReta);
-                    polilinha.Desenhar(novaPolilinha.Cor, pbAreaDesenho.CreateGraphics());
-                    p1.X = e.X;
-                    p1.Y = e.Y;
+                    {
+                        polilinhaBase.ListaPonto.InserirAposFim(new Ponto(e.X, e.Y, polilinhaBase.Cor));
+                        polilinhaBase.Desenhar(polilinhaBase.Cor, pbAreaDesenho.CreateGraphics());
+                    }
                     break;
+                    
             }
 
         }
@@ -327,7 +328,10 @@ namespace Grafico
         {
             if (situacaoAtual == Situacao.esperaFimPolilinha)
             {
+                figuras.InserirAposFim(new Polilinha(polilinhaBase.X, polilinhaBase.Y, polilinhaBase.Cor));
+                polilinhaBase = new Polilinha(0, 0, Color.Black);
                 LimparEsperas();
+                stMensagem.Items[1].Text = "";
             }
         }
 
@@ -397,6 +401,11 @@ namespace Grafico
                     MessageBox.Show("Erro ao salvar figuras");
                 }
             }
+        }
+
+        private void frmGrafico_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

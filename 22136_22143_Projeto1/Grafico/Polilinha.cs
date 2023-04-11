@@ -8,18 +8,18 @@ using System.Threading.Tasks;
 
 namespace Grafico
 {
-    // será feita uma lista de retas, as quais estarão ligadas, formando a polilinha
+    // será feita uma lista de pontos, os quais estarão ligados, formando a polilinha
     class Polilinha : Ponto
     {
         // atributos que serão utilizados
-        ListaSimples<Reta> linhas;
+        ListaSimples<Ponto> listaPonto;
         Color cor;
 
         // getters e setters
-        public ListaSimples<Reta> Linhas
+        public ListaSimples<Ponto> ListaPonto
         {
-            get => linhas;
-            set => linhas = value;
+            get => listaPonto;
+            set => listaPonto = value;
         }
 
         public Color Cor
@@ -29,49 +29,54 @@ namespace Grafico
         }
 
         // construtores de classe
-        public Polilinha(int x1, int y1, Color cor) : 
-                    base(x1, y1, cor)
+        public Polilinha(int x1, int y1, Color cor) : base(x1, y1, cor)
         {
             this.cor = cor;
-            linhas = new ListaSimples<Reta>();
-        }
-
-        public Polilinha() : base(0 , 0, Color.Black)
-        {
-            linhas = new ListaSimples<Reta>();
-            cor = Color.Black;
+            listaPonto = new ListaSimples<Ponto>();
         }
 
         // efetua o desenho da polilinha baseado na lista ligada.
         // as retas serão formadas a partir do clique do usuário, pois será feito um ponto
-        // (o ponto final de uma reta) e essa reta será adicionada na lista. quando o usuário
+        // (o ponto final de uma reta) e essa ponto será adicionada na lista. quando o usuário
         // fizer um double click, o desenho da polilinha será encerrado
         public override void Desenhar(Color cor, Graphics g)
         {
             Pen p = new Pen(cor);
-            linhas.IniciarPercursoSequencial();
+            listaPonto.IniciarPercursoSequencial();
+            g.DrawLine(p, base.X, base.Y, listaPonto.Atual.Info.X, listaPonto.Atual.Info.Y);
 
-            while(linhas.PodePercorrer())
-                g.DrawLine(p, linhas.Atual.Info.X, linhas.Atual.Info.Y, 
-                           linhas.Atual.Info.PontoFinal.X, linhas.Atual.Info.PontoFinal.Y);
+            while(listaPonto.PodePercorrer())
+            {   //talvez dÊ erro pois proximo do ultimo é nulo
+                if(listaPonto.Atual.Prox != null)
+                    g.DrawLine(p, listaPonto.Atual.Info.X, listaPonto.Atual.Info.Y, listaPonto.Atual.Prox.Info.X, listaPonto.Atual.Prox.Info.Y);
+            }
         }
 
         // uma forma de armazenamento da figura por meio de código
         // para que possa ser salvo e futuramente acessado novamente
         public override string ToString()
         {
-            string arq = "";
-            linhas.IniciarPercursoSequencial();
-            while(linhas.PodePercorrer())
+            string arq = transformaString("m", 5) +
+                         transformaString(base.X, 5) +
+                         transformaString(base.Y, 5) +
+                         transformaString(Cor.R, 5) +
+                         transformaString(Cor.G, 5) +
+                         transformaString(Cor.B, 5) +
+                         transformaString(listaPonto.QuantosNos(), 5);
+
+            listaPonto.IniciarPercursoSequencial();
+            while(listaPonto.PodePercorrer())
             {
-                arq += linhas.Atual.Info.ToString();
+                arq +=
+                transformaString(listaPonto.Atual.Info.X, 5) +
+                transformaString(listaPonto.Atual.Info.Y, 5);
             }
 
             return arq;
         }
 
-        public Polilinha(Polilinha polilinha) : 
+        /*public Polilinha(Polilinha polilinha) : 
                     this(polilinha.X, polilinha.Y, polilinha.Cor)
-        {}
+        {}*/
     }
 }
