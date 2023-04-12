@@ -81,7 +81,7 @@
             this.btnSair});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(684, 50);
+            this.toolStrip1.Size = new System.Drawing.Size(681, 50);
             this.toolStrip1.TabIndex = 0;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -237,7 +237,7 @@
             this.toolStripStatusLabel4});
             this.stMensagem.Location = new System.Drawing.Point(0, 468);
             this.stMensagem.Name = "stMensagem";
-            this.stMensagem.Size = new System.Drawing.Size(684, 22);
+            this.stMensagem.Size = new System.Drawing.Size(681, 22);
             this.stMensagem.TabIndex = 1;
             this.stMensagem.Text = "statusStrip1";
             // 
@@ -280,7 +280,7 @@
             this.pbAreaDesenho.ErrorImage = ((System.Drawing.Image)(resources.GetObject("pbAreaDesenho.ErrorImage")));
             this.pbAreaDesenho.Location = new System.Drawing.Point(0, 50);
             this.pbAreaDesenho.Name = "pbAreaDesenho";
-            this.pbAreaDesenho.Size = new System.Drawing.Size(684, 415);
+            this.pbAreaDesenho.Size = new System.Drawing.Size(681, 415);
             this.pbAreaDesenho.TabIndex = 2;
             this.pbAreaDesenho.TabStop = false;
             this.pbAreaDesenho.Paint += new System.Windows.Forms.PaintEventHandler(this.pbAreaDesenho_Paint);
@@ -293,7 +293,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
-            this.ClientSize = new System.Drawing.Size(684, 490);
+            this.ClientSize = new System.Drawing.Size(681, 490);
             this.Controls.Add(this.pbAreaDesenho);
             this.Controls.Add(this.stMensagem);
             this.Controls.Add(this.toolStrip1);
@@ -301,7 +301,6 @@
             this.Name = "frmGrafico";
             this.Text = "Desenho Geométrico";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmGrafico_FormClosing);
-            this.Load += new System.EventHandler(this.frmGrafico_Load);
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
             this.stMensagem.ResumeLayout(false);

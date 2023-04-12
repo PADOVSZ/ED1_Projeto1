@@ -37,7 +37,7 @@ namespace Grafico
 
         // efetua o desenho da polilinha baseado na lista ligada.
         // as retas serão formadas a partir do clique do usuário, pois será feito um ponto
-        // (o ponto final de uma reta) e essa ponto será adicionada na lista. quando o usuário
+        // (o ponto final de uma reta) e esse ponto será adicionada na lista. quando o usuário
         // fizer um double click, o desenho da polilinha será encerrado
         public override void Desenhar(Color cor, Graphics g)
         {
@@ -74,9 +74,5 @@ namespace Grafico
 
             return arq;
         }
-
-        /*public Polilinha(Polilinha polilinha) : 
-                    this(polilinha.X, polilinha.Y, polilinha.Cor)
-        {}*/
     }
 }

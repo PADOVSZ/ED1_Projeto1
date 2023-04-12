@@ -167,7 +167,6 @@ namespace Grafico
                     p.Desenhar(p.Cor, pbAreaDesenho.CreateGraphics());
                     LimparEsperas();
                     stMensagem.Items[1].Text = "";
-
                     break;
 
                 case Situacao.esperaInicioReta:
@@ -176,7 +175,6 @@ namespace Grafico
                     p1.Y = e.Y; 
                     situacaoAtual = Situacao.esperaFimReta;
                     stMensagem.Items[1].Text = "Clique no ponto final da reta";
-
                     break;
 
                 case Situacao.esperaFimReta:
@@ -185,7 +183,6 @@ namespace Grafico
                     r.Desenhar(r.Cor, pbAreaDesenho.CreateGraphics());
                     LimparEsperas();
                     stMensagem.Items[1].Text = "";
-
                     break;
 
                 case Situacao.esperaInicioCirculo:
@@ -194,7 +191,6 @@ namespace Grafico
                     p1.Y = e.Y;
                     situacaoAtual = Situacao.esperaFimCirculo;
                     stMensagem.Items[1].Text = "Clique no local da extremidade do círculo";
-
                     break;
 
                 case Situacao.esperaFimCirculo:
@@ -204,7 +200,6 @@ namespace Grafico
                     c.Desenhar(c.Cor, pbAreaDesenho.CreateGraphics());
                     LimparEsperas();
                     stMensagem.Items[1].Text = "";
-
                     break;
 
                 case Situacao.esperaInicioElipse:
@@ -213,7 +208,6 @@ namespace Grafico
                     p1.Y = e.Y;
                     situacaoAtual = Situacao.esperaFimElipse;
                     stMensagem.Items[1].Text = "Clique na extremidade da elipse";
-
                     break;
 
                 case Situacao.esperaFimElipse:
@@ -222,7 +216,6 @@ namespace Grafico
                     elipse.Desenhar(elipse.Cor, pbAreaDesenho.CreateGraphics());
                     LimparEsperas();
                     stMensagem.Items[1].Text = "";
-
                     break;
 
                 case Situacao.esperaInicioRetangulo:
@@ -231,7 +224,6 @@ namespace Grafico
                     p1.Y = e.Y;
                     situacaoAtual = Situacao.esperaFimRetangulo;
                     stMensagem.Items[1].Text = "Clique no canto inferior direito do retângulo";
-
                     break;
 
                 case Situacao.esperaFimRetangulo:
@@ -255,7 +247,6 @@ namespace Grafico
                     retangulo.Desenhar(retangulo.Cor, pbAreaDesenho.CreateGraphics());
                     LimparEsperas();
                     stMensagem.Items[1].Text = "";
-
                     break;
 
                 case Situacao.esperaInicioPolilinha:
@@ -267,12 +258,9 @@ namespace Grafico
                     break;
 
                 case Situacao.esperaFimPolilinha:
-                    {
-                        polilinhaBase.ListaPonto.InserirAposFim(new Ponto(e.X, e.Y, polilinhaBase.Cor));
-                        polilinhaBase.Desenhar(polilinhaBase.Cor, pbAreaDesenho.CreateGraphics());
-                    }
+                    polilinhaBase.ListaPonto.InserirAposFim(new Ponto(e.X, e.Y, polilinhaBase.Cor));
+                    polilinhaBase.Desenhar(polilinhaBase.Cor, pbAreaDesenho.CreateGraphics());
                     break;
-                    
             }
 
         }
@@ -326,7 +314,7 @@ namespace Grafico
         // o desenho da polilinha
         private void pbAreaDesenho_DoubleClick(object sender, EventArgs e)
         {
-            if (situacaoAtual == Situacao.esperaFimPolilinha)
+            if(situacaoAtual == Situacao.esperaFimPolilinha)
             {
                 figuras.InserirAposFim(new Polilinha(polilinhaBase.X, polilinhaBase.Y, polilinhaBase.Cor));
                 polilinhaBase = new Polilinha(0, 0, Color.Black);
@@ -401,11 +389,6 @@ namespace Grafico
                     MessageBox.Show("Erro ao salvar figuras");
                 }
             }
-        }
-
-        private void frmGrafico_Load(object sender, EventArgs e)
-        {
-
         }
     }
 }
