@@ -14,6 +14,7 @@ namespace Grafico
 {
     public partial class frmGrafico : Form
     {
+        bool estaSalvo = false;
         //especifica ao programa em qual situacao o usuáro está
         // (o que está fazendo no programa enquanto o usa)
         public enum Situacao
@@ -41,7 +42,8 @@ namespace Grafico
         // que tipo de clique o programa está esperando no momento
         private void LimparEsperas()
         {
-            situacaoAtual = Situacao.esperaAcao;
+           situacaoAtual = Situacao.esperaAcao;
+            AtualizarBotoes();
         }
 
         // Acessamos o contexto gráfico do PictureBox e percorremos a lista
@@ -131,7 +133,8 @@ namespace Grafico
                                 Polilinha polilinha = new Polilinha(xBase, yBase, cor);
                                 int qtosPontos = Convert.ToInt32(linha.Substring(30, 5).Trim());
                                 for (int i = 0; i < qtosPontos; i++)
-                                    polilinha.ListaPonto.InserirAposFim(new Ponto(Convert.ToInt32(linha.Substring(35 + 10 * i, 5)), Convert.ToInt32(linha.Substring(40 + 10 * i)), polilinha.Cor));
+                                    polilinha.ListaPonto.InserirAposFim(new Ponto(Convert.ToInt32(linha.Substring(35 + 10 * i, 5)), Convert.ToInt32(linha.Substring(40 + 10 * i, 5)), polilinha.Cor));
+                                figuras.InserirAposFim(new NoLista<Ponto>(polilinha));
                                 break;
                         }
                     }
@@ -167,6 +170,7 @@ namespace Grafico
                     p.Desenhar(p.Cor, pbAreaDesenho.CreateGraphics());
                     LimparEsperas();
                     stMensagem.Items[1].Text = "";
+                    estaSalvo = false;
                     break;
 
                 case Situacao.esperaInicioReta:
@@ -183,6 +187,7 @@ namespace Grafico
                     r.Desenhar(r.Cor, pbAreaDesenho.CreateGraphics());
                     LimparEsperas();
                     stMensagem.Items[1].Text = "";
+                    estaSalvo = false;
                     break;
 
                 case Situacao.esperaInicioCirculo:
@@ -200,6 +205,7 @@ namespace Grafico
                     c.Desenhar(c.Cor, pbAreaDesenho.CreateGraphics());
                     LimparEsperas();
                     stMensagem.Items[1].Text = "";
+                    estaSalvo = false;
                     break;
 
                 case Situacao.esperaInicioElipse:
@@ -216,6 +222,7 @@ namespace Grafico
                     elipse.Desenhar(elipse.Cor, pbAreaDesenho.CreateGraphics());
                     LimparEsperas();
                     stMensagem.Items[1].Text = "";
+                    estaSalvo = false;
                     break;
 
                 case Situacao.esperaInicioRetangulo:
@@ -247,6 +254,7 @@ namespace Grafico
                     retangulo.Desenhar(retangulo.Cor, pbAreaDesenho.CreateGraphics());
                     LimparEsperas();
                     stMensagem.Items[1].Text = "";
+                    estaSalvo = false;
                     break;
 
                 case Situacao.esperaInicioPolilinha:
@@ -254,15 +262,45 @@ namespace Grafico
                     polilinhaBase.Y = e.Y;
                     polilinhaBase.Cor = corAtual;
                     situacaoAtual = Situacao.esperaFimPolilinha;
+                    AtualizarBotoes();
                     stMensagem.Items[1].Text = "Clique nos outros pontos para formar as linhas. [Double Click] para encerrar";
                     break;
 
                 case Situacao.esperaFimPolilinha:
                     polilinhaBase.ListaPonto.InserirAposFim(new Ponto(e.X, e.Y, polilinhaBase.Cor));
                     polilinhaBase.Desenhar(polilinhaBase.Cor, pbAreaDesenho.CreateGraphics());
+                    estaSalvo = false;
                     break;
             }
 
+        }
+
+        private void AtualizarBotoes()
+        {
+            if(situacaoAtual == Situacao.esperaAcao)
+            {
+                btnPonto.Enabled     = true;
+                btnReta.Enabled      = true;
+                btnRetangulo.Enabled = true;
+                btnCirculo.Enabled   = true;
+                btnElipse.Enabled    = true;
+                btnPolilinha.Enabled = true;
+                btnLimpar.Enabled    = true;
+                btnSalvar.Enabled    = true;
+                btnAbrir.Enabled     = true;
+            }
+            else if(situacaoAtual == Situacao.esperaFimPolilinha)
+            {
+                btnPonto.Enabled     = false;
+                btnReta.Enabled      = false;
+                btnRetangulo.Enabled = false;
+                btnCirculo.Enabled   = false;
+                btnElipse.Enabled    = false;
+                btnPolilinha.Enabled = false;
+                btnLimpar.Enabled    = true;
+                btnSalvar.Enabled    = false;
+                btnAbrir.Enabled     = false;
+            }
         }
 
         // quando o usuário clicar nesse botão, o programa deverá informar
@@ -316,7 +354,7 @@ namespace Grafico
         {
             if(situacaoAtual == Situacao.esperaFimPolilinha)
             {
-                figuras.InserirAposFim(new Polilinha(polilinhaBase.X, polilinhaBase.Y, polilinhaBase.Cor));
+                figuras.InserirAposFim(new Polilinha(polilinhaBase));
                 polilinhaBase = new Polilinha(0, 0, Color.Black);
                 LimparEsperas();
                 stMensagem.Items[1].Text = "";
@@ -338,11 +376,14 @@ namespace Grafico
 
         private void frmGrafico_FormClosing(object sender, FormClosingEventArgs e)
         {
-            // solicita salvamento antes do usuário fechar o programa
-            if(MessageBox.Show("Deseja salvar seu desenho antes de sair?", "Sair", MessageBoxButtons.YesNo,
-                                                                                   MessageBoxIcon.Question) == DialogResult.Yes) 
+            if (!estaSalvo)
             {
-                Salvar();
+                // solicita salvamento antes do usuário fechar o programa
+                if (MessageBox.Show("Deseja salvar seu desenho antes de sair?", "Sair", MessageBoxButtons.YesNo,
+                                                                                        MessageBoxIcon.Question) == DialogResult.Yes)
+                {
+                    Salvar();
+                }
             }
         }
 
@@ -382,6 +423,7 @@ namespace Grafico
                     }
 
                     arq.Close();
+                    estaSalvo = true;
                     stMensagem.Items[1].Text = $"Arquivo salvo em {dlgSalvar.FileName}";
                 }
                 catch (IOException)

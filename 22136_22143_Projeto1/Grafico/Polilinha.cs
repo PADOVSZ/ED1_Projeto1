@@ -35,6 +35,11 @@ namespace Grafico
             listaPonto = new ListaSimples<Ponto>();
         }
 
+        public Polilinha(Polilinha modelo) : this(modelo.X, modelo.Y, modelo.cor)
+        {
+            this.listaPonto = modelo.listaPonto;
+        }
+
         // efetua o desenho da polilinha baseado na lista ligada.
         // as retas serão formadas a partir do clique do usuário, pois será feito um ponto
         // (o ponto final de uma reta) e esse ponto será adicionada na lista. quando o usuário
