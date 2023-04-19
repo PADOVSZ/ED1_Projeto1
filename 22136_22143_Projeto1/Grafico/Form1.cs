@@ -72,6 +72,8 @@ namespace Grafico
         {
             if(dlgAbrir.ShowDialog() == DialogResult.OK)
             {
+                LimparEsperas();
+                figuras.Limpar();
                 try
                 {
                     // lê linhas do arquivo até que este acabe, processa cada uma, determinando
@@ -146,6 +148,7 @@ namespace Grafico
                     // do painel de desenhos como parâmetro
                     this.Text = dlgAbrir.FileName;
                     pbAreaDesenho.Invalidate();
+                    estaSalvo = true;
                 }
                 catch (IOException)
                 {
@@ -168,8 +171,7 @@ namespace Grafico
                     Ponto p = new Ponto(e.X, e.Y, corAtual);
                     figuras.InserirAposFim(new NoLista<Ponto>(p));
                     p.Desenhar(p.Cor, pbAreaDesenho.CreateGraphics());
-                    LimparEsperas();
-                    stMensagem.Items[1].Text = "";
+                    stMensagem.Items[1].Text = "Desenhando pontos";
                     estaSalvo = false;
                     break;
 
@@ -185,8 +187,8 @@ namespace Grafico
                     Reta r = new Reta(p1.X, p1.Y, e.X, e.Y, corAtual);
                     figuras.InserirAposFim(new NoLista<Ponto>(r));
                     r.Desenhar(r.Cor, pbAreaDesenho.CreateGraphics());
-                    LimparEsperas();
-                    stMensagem.Items[1].Text = "";
+                    situacaoAtual = Situacao.esperaInicioReta;
+                    stMensagem.Items[1].Text = "Clique no ponto inicial da reta";
                     estaSalvo = false;
                     break;
 
@@ -203,8 +205,8 @@ namespace Grafico
                     Circulo c = new Circulo(p1.X, p1.Y, raio, corAtual);
                     figuras.InserirAposFim(new NoLista<Ponto>(c));
                     c.Desenhar(c.Cor, pbAreaDesenho.CreateGraphics());
-                    LimparEsperas();
-                    stMensagem.Items[1].Text = "";
+                    situacaoAtual = Situacao.esperaInicioCirculo;
+                    stMensagem.Items[1].Text = "Clique no centro do círculo";
                     estaSalvo = false;
                     break;
 
@@ -220,8 +222,8 @@ namespace Grafico
                     Elipse elipse = new Elipse(p1.X, p1.Y, e.X < p1.X ? p1.X - e.X : e.X - p1.X, e.Y < p1.Y ? p1.Y - e.Y : e.Y - p1.Y, corAtual);
                     figuras.InserirAposFim(new NoLista<Ponto>(elipse));
                     elipse.Desenhar(elipse.Cor, pbAreaDesenho.CreateGraphics());
-                    LimparEsperas();
-                    stMensagem.Items[1].Text = "";
+                    situacaoAtual = Situacao.esperaInicioElipse;
+                    stMensagem.Items[1].Text = "Clique no centro da elipse";
                     estaSalvo = false;
                     break;
 
@@ -230,7 +232,7 @@ namespace Grafico
                     p1.X = e.X;
                     p1.Y = e.Y;
                     situacaoAtual = Situacao.esperaFimRetangulo;
-                    stMensagem.Items[1].Text = "Clique no canto inferior direito do retângulo";
+                    stMensagem.Items[1].Text = "Clique na outra extremidade do retângulo";
                     break;
 
                 case Situacao.esperaFimRetangulo:
@@ -252,8 +254,8 @@ namespace Grafico
                     Retangulo retangulo = new Retangulo(p1.X, p1.Y, x - p1.X, y - p1.Y, corAtual);
                     figuras.InserirAposFim(new NoLista<Ponto>(retangulo));
                     retangulo.Desenhar(retangulo.Cor, pbAreaDesenho.CreateGraphics());
-                    LimparEsperas();
-                    stMensagem.Items[1].Text = "";
+                    situacaoAtual = Situacao.esperaInicioRetangulo;
+                    stMensagem.Items[1].Text = "Clique em uma das extremidades do retangulo"; //integrar final de um retangulo com o começo do proximo
                     estaSalvo = false;
                     break;
 
@@ -371,7 +373,11 @@ namespace Grafico
         // o formulário será fechado
         private void btnSair_Click(object sender, EventArgs e)
         {
+            if (MessageBox.Show("Deseja, realmente, encerrar a execução do programa?", "Deseja sair?", MessageBoxButtons.YesNo,
+                                                                                                      MessageBoxIcon.Question) == DialogResult.Yes)
+            { 
             this.Close();
+            }
         }
 
         private void frmGrafico_FormClosing(object sender, FormClosingEventArgs e)
