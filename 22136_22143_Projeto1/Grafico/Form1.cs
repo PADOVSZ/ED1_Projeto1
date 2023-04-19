@@ -14,8 +14,11 @@ namespace Grafico
 {
     public partial class frmGrafico : Form
     {
+        // especifica para o programa se o arquivo foi salvo ou não
+        // durante o uso do aplicativo
         bool estaSalvo = false;
-        //especifica ao programa em qual situacao o usuáro está
+
+        // especifica ao programa em qual situação o usuáro está
         // (o que está fazendo no programa enquanto o usa)
         public enum Situacao
         {
@@ -46,7 +49,7 @@ namespace Grafico
             AtualizarBotoes();
         }
 
-        // Acessamos o contexto gráfico do PictureBox e percorremos a lista
+        // acessamos o contexto gráfico do PictureBox e percorremos a lista
         // ligada para acessarmos cada uma das figuras nela armazenadas
         private void pbAreaDesenho_Paint(object sender, PaintEventArgs e)
         {
@@ -67,7 +70,7 @@ namespace Grafico
         }
 
         // o botão btnAbrir exibe um diálogo de abertura de arquivo, que permitirá selecionar
-        // um arquivo com as figuras geométricas salvas anteriormente pelo aplicativo.
+        // um arquivo com as figuras geométricas salvas anteriormente pelo aplicativo
         private void btnAbrir_Click(object sender, EventArgs e)
         {
             if(dlgAbrir.ShowDialog() == DialogResult.OK)
@@ -93,9 +96,9 @@ namespace Grafico
                         string tipo = linha.Substring(0, 5).Trim();
                         int xBase = Convert.ToInt32(linha.Substring(5, 5).Trim());
                         int yBase = Convert.ToInt32(linha.Substring(10, 5).Trim());
-                        int corR = Convert.ToInt32(linha.Substring(15, 5).Trim());
-                        int corG = Convert.ToInt32(linha.Substring(20, 5).Trim());
-                        int corB = Convert.ToInt32(linha.Substring(25, 5).Trim());
+                        int corR  = Convert.ToInt32(linha.Substring(15, 5).Trim());
+                        int corG  = Convert.ToInt32(linha.Substring(20, 5).Trim());
+                        int corB  = Convert.ToInt32(linha.Substring(25, 5).Trim());
                         Color cor = new Color();
                         cor = Color.FromArgb(255, corR, corG, corB);
 
@@ -105,7 +108,7 @@ namespace Grafico
                                 figuras.InserirAposFim(new NoLista<Ponto>(new Ponto(xBase, yBase, cor)));
                                 break;
 
-                            case 'l': //reta
+                            case 'l': //reta ou linha
                                 int xFinal = Convert.ToInt32(linha.Substring(30, 5).Trim());
                                 int yFinal = Convert.ToInt32(linha.Substring(35, 5).Trim());
                                 figuras.InserirAposFim(new NoLista<Ponto>(
@@ -131,16 +134,17 @@ namespace Grafico
                                 figuras.InserirAposFim(new NoLista<Ponto>(
                                                        new Retangulo(xBase, yBase, largura, altura, cor)));
                                 break;
+
                             case 'm': //polilinha ou multiline
                                 Polilinha polilinha = new Polilinha(xBase, yBase, cor);
                                 int qtosPontos = Convert.ToInt32(linha.Substring(30, 5).Trim());
                                 for (int i = 0; i < qtosPontos; i++)
-                                    polilinha.ListaPonto.InserirAposFim(new Ponto(Convert.ToInt32(linha.Substring(35 + 10 * i, 5)), Convert.ToInt32(linha.Substring(40 + 10 * i, 5)), polilinha.Cor));
+                                    polilinha.ListaPonto.InserirAposFim(new Ponto(Convert.ToInt32(linha.Substring(35 + 10 * i, 5)), 
+                                                                                  Convert.ToInt32(linha.Substring(40 + 10 * i, 5)), polilinha.Cor));
                                 figuras.InserirAposFim(new NoLista<Ponto>(polilinha));
                                 break;
                         }
                     }
-
                     arqFiguras.Close();
 
                     // mudam o título da janela-filha, para o nome do arquivo aberto,
@@ -277,9 +281,13 @@ namespace Grafico
 
         }
 
+        // atualiza os botões para que o usuário não consiga clicar em
+        // outras figuras se, por exemplo, estiver fazendo uma polilnha.
+        // o usuário precisará primeiro terminar a polilinha antes
+        // de selecionar outras figuras para desenhar
         private void AtualizarBotoes()
         {
-            if(situacaoAtual == Situacao.esperaAcao)
+            if (situacaoAtual == Situacao.esperaAcao)
             {
                 btnPonto.Enabled     = true;
                 btnReta.Enabled      = true;
@@ -291,7 +299,7 @@ namespace Grafico
                 btnSalvar.Enabled    = true;
                 btnAbrir.Enabled     = true;
             }
-            else if(situacaoAtual == Situacao.esperaFimPolilinha)
+            else if (situacaoAtual == Situacao.esperaFimPolilinha)
             {
                 btnPonto.Enabled     = false;
                 btnReta.Enabled      = false;
@@ -299,14 +307,15 @@ namespace Grafico
                 btnCirculo.Enabled   = false;
                 btnElipse.Enabled    = false;
                 btnPolilinha.Enabled = false;
-                btnLimpar.Enabled    = true;
                 btnSalvar.Enabled    = false;
                 btnAbrir.Enabled     = false;
+                btnLimpar.Enabled    = true;
             }
         }
 
-        // quando o usuário clicar nesse botão, o programa deverá informar
-        // que está esperando que o usuário indique um ponto sobre área de desenho
+        // quando o usuário clicar nesses botões (btnFigura_Click),
+        // o programa deverá informar que está esperando que o usuário
+        // indique um ponto sobre área de desenho
         private void btnPonto_Click(object sender, EventArgs e)
         {
             stMensagem.Items[1].Text = "Mensagem: Clique em um ponto na área de desenho";
@@ -370,11 +379,13 @@ namespace Grafico
             Salvar();
         }
 
-        // o formulário será fechado
+        // o formulário será fechado assim que o usuário indicar que
+        // quer encerrar a execução do programa
         private void btnSair_Click(object sender, EventArgs e)
         {
-            if (MessageBox.Show("Deseja, realmente, encerrar a execução do programa?", "Deseja sair?", MessageBoxButtons.YesNo,
-                                                                                                      MessageBoxIcon.Question) == DialogResult.Yes)
+            if (MessageBox.Show("Deseja, realmente, encerrar a execução do programa?", 
+                                "Deseja sair?", MessageBoxButtons.YesNo,
+                                                MessageBoxIcon.Question) == DialogResult.Yes)
             { 
             this.Close();
             }
@@ -385,8 +396,9 @@ namespace Grafico
             if (!estaSalvo)
             {
                 // solicita salvamento antes do usuário fechar o programa
-                if (MessageBox.Show("Deseja salvar seu desenho antes de sair?", "Sair", MessageBoxButtons.YesNo,
-                                                                                        MessageBoxIcon.Question) == DialogResult.Yes)
+                if (MessageBox.Show("Deseja salvar seu desenho antes de sair?", 
+                                    "Sair", MessageBoxButtons.YesNo,
+                                            MessageBoxIcon.Question) == DialogResult.Yes)
                 {
                     Salvar();
                 }
@@ -410,6 +422,8 @@ namespace Grafico
             pbAreaDesenho.Invalidate();
         }
 
+        // salva o desenho por meio dos métodos feitos anteriormente
+        // para a gravação das figuras em um arquivo de texto
         private void Salvar()
         {
             if (dlgSalvar.ShowDialog() == DialogResult.OK)

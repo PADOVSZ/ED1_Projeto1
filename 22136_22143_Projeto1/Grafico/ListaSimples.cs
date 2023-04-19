@@ -190,7 +190,7 @@ public class ListaSimples<Dado> where Dado : IComparable<Dado>,
         return false;
     }
 
-    /*public void Limpar()
+    /* public void Limpar()
     {
         for (atual = primeiro; atual != null; atual = atual.Prox)
             Remover(atual.Info);

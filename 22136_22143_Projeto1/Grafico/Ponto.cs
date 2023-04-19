@@ -56,7 +56,7 @@ namespace Grafico
         public virtual void Desenhar(Color cor, Graphics g)
         {
             Pen pen = new Pen(cor);
-            g.DrawLine(pen, x, y, x+1, y); //ponto não aparecia, então adicionei 1 no x
+            g.DrawLine(pen, x, y, x+1, y); // ponto não aparecia, então adicionamos 1 ao x
         }
 
         public String transformaString(int valor, int quantasPosicoes)

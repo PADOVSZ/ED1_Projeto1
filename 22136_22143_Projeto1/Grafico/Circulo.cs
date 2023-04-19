@@ -26,7 +26,7 @@ namespace Grafico
             raio = novoRaio;
         }
 
-        public void setRaio(int novoRaio) //qual a função, sendo que existe a propriedade?
+        public void setRaio(int novoRaio) 
         {
             raio = novoRaio;
         }

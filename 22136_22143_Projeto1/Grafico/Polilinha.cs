@@ -8,7 +8,8 @@ using System.Threading.Tasks;
 
 namespace Grafico
 {
-    // será feita uma lista de pontos, os quais estarão ligados, formando a polilinha
+    // será feita uma lista de pontos, os quais estarão ligados, formando retas e,
+    // consequentemente, formando a polilinha
     class Polilinha : Ponto
     {
         // atributos que serão utilizados
@@ -51,9 +52,10 @@ namespace Grafico
             g.DrawLine(p, base.X, base.Y, listaPonto.Atual.Info.X, listaPonto.Atual.Info.Y);
 
             while(listaPonto.PodePercorrer())
-            {   //talvez dÊ erro pois proximo do ultimo é nulo
+            {   
                 if(listaPonto.Atual.Prox != null)
-                    g.DrawLine(p, listaPonto.Atual.Info.X, listaPonto.Atual.Info.Y, listaPonto.Atual.Prox.Info.X, listaPonto.Atual.Prox.Info.Y);
+                    g.DrawLine(p, listaPonto.Atual.Info.X, listaPonto.Atual.Info.Y, 
+                               listaPonto.Atual.Prox.Info.X, listaPonto.Atual.Prox.Info.Y);
             }
         }
 
@@ -72,9 +74,8 @@ namespace Grafico
             listaPonto.IniciarPercursoSequencial();
             while(listaPonto.PodePercorrer())
             {
-                arq +=
-                transformaString(listaPonto.Atual.Info.X, 5) +
-                transformaString(listaPonto.Atual.Info.Y, 5);
+                arq += transformaString(listaPonto.Atual.Info.X, 5) +
+                       transformaString(listaPonto.Atual.Info.Y, 5);
             }
 
             return arq;
