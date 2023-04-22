@@ -223,7 +223,7 @@ namespace Grafico
                     break;
 
                 case Situacao.esperaFimElipse:
-                    Elipse elipse = new Elipse(p1.X, p1.Y, e.X < p1.X ? p1.X - e.X : e.X - p1.X, e.Y < p1.Y ? p1.Y - e.Y : e.Y - p1.Y, corAtual);
+                    Elipse elipse = new Elipse(p1.X, p1.Y, Math.Abs(e.X - p1.X), Math.Abs(e.Y - p1.Y), corAtual);
                     figuras.InserirAposFim(new NoLista<Ponto>(elipse));
                     elipse.Desenhar(elipse.Cor, pbAreaDesenho.CreateGraphics());
                     situacaoAtual = Situacao.esperaInicioElipse;
